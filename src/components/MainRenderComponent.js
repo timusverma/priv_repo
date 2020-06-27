@@ -12,6 +12,8 @@ export default function MainRenderComponent(props) {
   const [uploadImageSelect, setUploadImageSelect] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [urlInput, setUrlInput] = useState("");
+  const [disableModalClose, setDisableModalClose] = useState(false);
+  // var disableModalClose = false;
 
   let handleCloseModal = () => setShowModal(false);
   let handleShowModal = () => setShowModal(true);
@@ -20,6 +22,7 @@ export default function MainRenderComponent(props) {
 
   useEffect(() => {
     if (uploadImageSelect) {
+      setDisableModalClose(true);
       var formData = new FormData();
       formData.append("image", uploadImageSelect, uploadImageSelect.name);
       const requestOptions = {
@@ -34,17 +37,13 @@ export default function MainRenderComponent(props) {
       )
         .then(response => response.json())
         .then(data => {
-          // imgArr.push(data.url);
-          // setImgArr(imgArr);
-          // console.log("data",data,imgArr)
-          // let imagesArr = JSON.parse(window.localStorage.getItem("images"));
           defaultCarouselImages.push(data.data.url);
-          // window.localStorage.setItem("images", JSON.stringify(imagesArr));
-          // console.log("data", data, imagesArr, window.localStorage);
+          setDisableModalClose(false);
         })
-        .catch(e =>
-          window.alert("Some issue in uploading image, please try again!!")
-        );
+        .catch(e => {
+          setDisableModalClose(false);
+          window.alert("Some issue in uploading image, please try again!!");
+        });
     }
   }, [uploadImageSelect, urlInput]);
 
@@ -63,35 +62,24 @@ export default function MainRenderComponent(props) {
 
   return (
     <div className="App">
-      <Modal show={showModal} handleClose={handleCloseModal}>
+      <Modal
+        show={showModal}
+        handleClose={handleCloseModal}
+        disable={disableModalClose}
+      >
         <div className="row">
-          <div
-            style={{
-              padding: "20px 0px 20px 20px",
-              display: "flex"
-            }}
-          >
-            Add via link/url
-          </div>
-          <div style={{ margin: "auto" }}>
+          <div className="textInModal">Add via link/url</div>
+          <div className="m-auto">
             <div>
               <input
-                style={{
-                  // width: "350px",
-                  height: "25px",
-                  display: "flex",
-                  margin: "auto"
-                }}
+                className="inputUrl"
                 id="addURL"
                 type="text"
                 onChange={handleInputUrl}
               />
             </div>
             <div>
-              <button
-                style={{ margin: "auto", "margin-top": "10px" }}
-                onClick={submitImageUrlHandler}
-              >
+              <button className="m-auto mt-10" onClick={submitImageUrlHandler}>
                 Add Image
               </button>
             </div>
@@ -99,21 +87,8 @@ export default function MainRenderComponent(props) {
         </div>
         <hr style={{ margin: "5px" }} />
 
-        <div
-          style={{
-            padding: "20px 0px 20px 20px",
-            display: "flex"
-          }}
-        >
-          or Upload Image from device
-        </div>
-        <div
-          style={{
-            display: "flex",
-            padding: "0px 0px 20px 10px",
-            margin: "auto"
-          }}
-        >
+        <div className="textInModal">or Upload Image from device</div>
+        <div className="inputWrapper">
           <input
             type="file"
             id="uploadImage"

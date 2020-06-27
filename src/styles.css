@@ -116,6 +116,7 @@ body {
   line-height: 1.5; */
   font: 15px, 1.5, Arial, Helvetica, sans-serif;
   padding: 0;
+  margin: 0;
   background-color: #f4f4f4;
 }
 
@@ -166,4 +167,28 @@ header nav {
 
 header #branding h1 {
   margin: 0;
+}
+
+.textInModal {
+  padding: 20px 0px 20px 20px;
+  display: flex;
+}
+.m-auto {
+  margin: auto;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.inputUrl {
+  height: 25px;
+  display: flex;
+  margin: auto;
+}
+
+.inputWrapper {
+  display: flex;
+  padding: 0px 0px 20px 10px;
+  margin: auto;
 }
